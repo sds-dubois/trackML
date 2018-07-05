@@ -1,0 +1,24 @@
+<table class="mt-5">
+   <col width="100">
+   <col width="600">
+   <col width="150">
+   <col width="150">
+   <col width="150">
+
+  <tr>
+    <th>ID</th>
+    <th>Parameters</th>
+    <th>Score</th>
+    <th>Metric</th>
+    <th>Updated</th>
+  </tr>
+    <% experiments.each do |experiment| %>
+        <tr>
+            <td><%= experiment.id %></td>
+            <td><%= experiment.pretty_parameters %></td>
+            <td><%= experiment.score.round(4) %></td>
+            <td><%= experiment.metric %></td>
+            <td><%= experiment.updated_at.strftime("%m/%d/%Y %H:%M") %></td>
+        </tr>
+    <% end %>
+</table>

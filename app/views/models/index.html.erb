@@ -2,28 +2,4 @@
 
 <h1>Models</h1>
 
-
-<table class="mt-5">
-   <col width="100">
-   <col width="300">
-   <col width="400">
-   <col width="150">
-   <col width="150">
-
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Experiments</th>
-    <th>Updated</th>
-  </tr>
-    <% @models.each do |model| %>
-        <tr>
-            <td><%= model.id %></td>
-            <td><%= model.name %></td>
-            <td><%= model.comment.first(100) %></td>
-            <td><%= link_to "see", experiments_path(model_id: model.id) %></td>
-            <td><%= model.updated_at.strftime("%m/%d/%Y %H:%M") %></td>
-        </tr>
-    <% end %>
-</table>
+<%= render "layouts/models", models: @models %>

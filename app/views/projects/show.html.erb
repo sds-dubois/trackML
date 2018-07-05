@@ -1,0 +1,65 @@
+<% provide(:title, "Project #{@project.id}") %>
+
+<h1><%= "#{@project.name}" %> </h1>
+
+<div>
+    <ul>
+        <li><%= link_to "Export", @project %></li>
+        <li><%= link_to "Edit project", "#editModal", data: {toggle: "modal", target: "#editModal"} %></li>
+        <li><%= link_to "Add new model", "#newModal", data: {toggle: "modal", target: "#newModal"} %></li>
+    </ul>
+</div>
+
+<%= render "layouts/models", models: @models %>
+
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit model</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-6 col-md-offset-3 m-auto">
+            <%= form_for(@project) do |f| %>
+            <%= f.label :name %>
+            <%= f.text_field :name, class: 'form-control', placeholder: @project.name %>
+
+            <%= f.submit "Update project", class: "btn btn-primary" %>
+            <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Modal -->
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newModalLabel">Add new model</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-6 col-md-offset-3 m-auto">
+            <%= form_for(Model.new) do |f| %>
+            <%= hidden_field_tag "model[project_id]", @project.id %>
+            <%= f.label :name %>
+            <%= f.text_field :name, class: 'form-control' %>
+            <%= f.label :comment %>
+            <%= f.text_field :comment, class: 'form-control' %>
+
+            <%= f.submit "Create model", class: "btn btn-primary" %>
+            <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,19 +7,16 @@
    <col width="100">
    <col width="450">
    <col width="150">
-   <col width="150">
 
   <tr>
     <th>ID</th>
     <th>Name</th>
-    <th>Models</th>
     <th>Updated</th>
   </tr>
     <% @projects.each do |project| %>
         <tr>
             <td><%= project.id %></td>
-            <td><%= project.name %></td>
-            <td><%= link_to "see", models_path(project_id: project.id) %></td>
+            <td><%= link_to project.name, project %></td>
             <td><%= project.updated_at.strftime("%m/%d/%Y %H:%M") %></td>
         </tr>
     <% end %>

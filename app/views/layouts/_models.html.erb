@@ -1,0 +1,24 @@
+<table class="mt-5">
+   <col width="100">
+   <col width="300">
+   <col width="400">
+   <col width="150">
+   <col width="150">
+
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Updated</th>
+    <th>Delete</th>
+  </tr>
+    <% models.each do |model| %>
+        <tr>
+            <td><%= model.id %></td>
+            <td><%= link_to model.name, model %></td>
+            <td><%= model.comment.to_s.first(100) %></td>
+            <td><%= model.updated_at.strftime("%m/%d/%Y %H:%M") %></td>
+            <td><%= link_to "x", model, method: :delete, data: { confirm: "Delete model?" } %></td>
+        </tr>
+    <% end %>
+</table>
