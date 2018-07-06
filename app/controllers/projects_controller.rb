@@ -34,6 +34,12 @@ class ProjectsController < ApplicationController
 		redirect_to @project
 	end
 
+	def export
+		project = Project.find(params[:id])
+		zip, filename = project.export()
+		send_data zip, filename: filename
+	end
+
 	private
 
 		def _new_project

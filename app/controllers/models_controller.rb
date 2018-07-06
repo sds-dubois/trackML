@@ -42,6 +42,11 @@ class ModelsController < ApplicationController
 		redirect_to models_path(project_id: pid)
 	end
 
+	def export
+		file, filename = Experiment.export_model(params[:id])
+		send_data file, filename: filename
+	end
+
 
 	private
 
