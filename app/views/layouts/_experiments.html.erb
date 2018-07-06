@@ -1,3 +1,5 @@
+<%= line_chart experiments.sort_by(&:score).reverse.each_with_index.map{ |e,i| [e.id, e.score] } %>
+
 <table class="mt-5">
    <col width="100">
    <col width="600">
