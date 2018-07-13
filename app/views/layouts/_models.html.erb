@@ -9,20 +9,18 @@
 </div>
 
 
-<table class="mt-5">
-   <col width="100">
-   <col width="300">
-   <col width="400">
-   <col width="150">
-   <col width="150">
+<table class="table table-hover table-striped my-5">
 
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Updated</th>
-    <th>Delete</th>
-  </tr>
+  <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Updated</th>
+        <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
     <% models.each do |model| %>
         <tr>
             <td><%= model.id %></td>
@@ -32,4 +30,5 @@
             <td><%= link_to "x", model, method: :delete, data: { confirm: "Delete model and its experiments?" } %></td>
         </tr>
     <% end %>
+  </tbody>
 </table>

@@ -1,16 +1,20 @@
 <% provide(:title, "Project #{@project.id}") %>
 
-<h1><%= "#{@project.name}" %> </h1>
 
-<div>
-    <ul>
-        <li><%= link_to "Export", export_project_path(id: @project.id) %></li>
-        <li><%= link_to "Edit project", "#editModal", data: {toggle: "modal", target: "#editModal"} %></li>
-        <li><%= link_to "Add new model", "#newModal", data: {toggle: "modal", target: "#newModal"} %></li>
-    </ul>
+<div class="jumbotron">
+
+  <h1 class="display-4"><%= "#{@project.name}" %></h1>
+
+  <ul class="nav nav-pills center-pills">
+      <li class="nav-item mr-2"><%= link_to "Edit project", "#editModal", data: {toggle: "modal", target: "#editModal"}, class: "nav-link active" %></li>
+      <li class="nav-item mr-2"><%= link_to "Add new model", "#newModal", data: {toggle: "modal", target: "#newModal"}, class: "nav-link active" %></li>
+      <li class="nav-item mr-2"><%= link_to "Export", export_project_path(id: @project.id), class: "nav-link active" %></li>
+  </ul>
+
 </div>
 
-<%= render "layouts/models", models: @models %>
+
+<%= render "layouts/models", models: @models if @models.count > 0 %>
 
 
 <!-- Edit Modal -->

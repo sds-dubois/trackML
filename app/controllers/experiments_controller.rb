@@ -12,6 +12,12 @@ class ExperimentsController < ApplicationController
 		render json: {success: @experiment.save, id: @experiment.id}.to_json
 	end
 
+	def destroy
+		exp = Experiment.find(params[:id])
+		mid = exp.model_id
+		exp.destroy
+		redirect_to model_path(id: mid)
+	end
 
 	private
 

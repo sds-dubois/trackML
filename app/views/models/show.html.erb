@@ -1,20 +1,21 @@
 <% provide(:title, "Model #{@model.id}") %>
 
-<h1><%= "#{@model.name}" %> </h1>
+<div class="jumbotron">
 
-<h2><%= "Project #{@model.project_id}" %></h2>
-<h2><%= @model.comment %></h2>
+  <h1 class="display-4"><%= "#{@model.name}" %></h1>
+  <h2><%= "Project #{@model.project_id}" %></h2>
+  <p class="lead text-center"><%= @model.comment %></p>
 
-<div>
-    <ul>
-        <li><%= link_to "Go to project", project_path(id: @model.project_id) %></li>
-        <li><%= link_to "Export logs", export_model_path(id: @model) %></li>
-        <li><%= link_to "Edit model", "#editModal", data: {toggle: "modal", target: "#editModal"} %></li>
-    </ul>
+  <ul class="nav nav-pills center-pills">
+      <li class="nav-item mr-2"><%= link_to "Edit model", "#editModal", data: {toggle: "modal", target: "#editModal"}, class: "nav-link active" %></li>
+      <li class="nav-item mr-2"><%= link_to "Export logs", export_model_path(id: @model), class: "nav-link active" %></li>
+      <li class="nav-item mr-2"><%= link_to "Go to project", project_path(id: @model.project_id), class: "nav-link active" %></li>
+  </ul>
+
 </div>
 
-<%= render "layouts/experiments", experiments: @experiments %>
 
+<%= render "layouts/experiments", experiments: @experiments if @experiments.count > 0 %>
 
 <!-- Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">

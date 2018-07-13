@@ -40,6 +40,11 @@ class ProjectsController < ApplicationController
 		send_data zip, filename: filename
 	end
 
+	def destroy
+		Project.find(params[:id]).destroy
+		redirect_to projects_path
+	end
+
 	private
 
 		def _new_project
