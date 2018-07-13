@@ -1,13 +1,35 @@
 
-<% experiments = Experiment.where(model_id: models.map(&:id).uniq) %>
+<% detailed_exp = Experiment.detailed_list(Experiment.where(model_id: models.map(&:id).uniq)) %>
+<% metric_data = detailed_exp.group_by(&:second) %>
 <% model_names = models.map{ |m| [m.id, m.name] }.to_h %>
 
-<div class="mt-5">
-    <%= line_chart experiments.group_by(&:model_id).map{ |k,v| 
-        {name: model_names[k], data: v.sort_by(&:score).reverse.each_with_index.map{ |e,i| [i, e.score] }} 
-    }, legend: "bottom" %>
+
+<div id="graphCarousel" class="carousel slide mt-5" data-ride="carousel" data-interval="false">
+  <div class="carousel-inner">
+
+    <% metric_data.each_with_index do |elt, idx| %>
+        <div class="carousel-item <%= (idx == 0) ? "active" : "" %>">
+
+            <%= line_chart elt[1].group_by{ |e,m,s| e.model_id }.map{ |k,v| 
+                {name: model_names[k], data: v.map(&:last).sort.reverse.each_with_index.map{ |score,i| [i, score] }} 
+            }, legend: "bottom" %>
+
+        </div>
+    <% end %>
+
+  </div>
 </div>
 
+<div class="mb-3">
+  <ul class="nav nav-pills center-pills">
+      <% metric_data.each_with_index do |elt, idx| %>
+          <li class="nav-item mr-2">
+            <%= link_to elt[0], "#", data: {toggle: "tab", target: "#graphCarousel", "slide-to" => idx.to_s }, class: "nav-link btn-light #{(idx == 0) ? "active" : ""}" %>
+          </li>
+      <% end %>
+  </ul>
+
+</div>
 
 <table class="table table-hover table-striped my-5">
 

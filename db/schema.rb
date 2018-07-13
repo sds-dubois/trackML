@@ -10,15 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180703215719) do
+ActiveRecord::Schema.define(version: 20180713012649) do
 
   create_table "experiments", force: :cascade do |t|
     t.text     "parameters"
-    t.float    "score"
-    t.string   "metric"
     t.integer  "model_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "scores"
     t.index ["model_id", "created_at"], name: "index_experiments_on_model_id_and_created_at"
     t.index ["model_id"], name: "index_experiments_on_model_id"
   end

@@ -22,8 +22,9 @@ class ExperimentsController < ApplicationController
 	private
 
 		def _experiment_params
-			p = params.require(:experiment).permit(:parameters, :score, :metric, :model_id).to_h.symbolize_keys
+			p = params.require(:experiment).permit(:parameters, :scores, :model_id).to_h.symbolize_keys
 			p[:parameters] = YAML.load(p[:parameters])
+			p[:scores] = YAML.load(p[:scores])
 			return p
 		end
 

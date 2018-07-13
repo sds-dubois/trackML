@@ -1,4 +1,11 @@
-<%= line_chart experiments.sort_by(&:score).reverse.each_with_index.map{ |e,i| [e.id, e.score] } %>
+
+<% detailed_exp = Experiment.detailed_list(experiments) %>
+
+<div class="mt-5">
+    <%= line_chart detailed_exp.group_by(&:second).map{ |k,v| 
+        {name: k, data: v.map{ |e,m,s| [e.id, s] }} 
+    }, legend: "bottom" %>
+</div>
 
 <table class="table table-hover table-striped my-5">
 
@@ -13,12 +20,12 @@
     </tr>
   </thead>
   <tbody>
-    <% experiments.each do |experiment| %>
+    <% detailed_exp.each do |experiment,metric,score| %>
         <tr>
             <td><%= experiment.id %></td>
             <td><%= experiment.pretty_parameters %></td>
-            <td><%= experiment.score.round(4) %></td>
-            <td><%= experiment.metric %></td>
+            <td><%= score.round(4) %></td>
+            <td><%= metric %></td>
             <td><%= experiment.updated_at.strftime("%m/%d/%Y %H:%M") %></td>
             <td><%= link_to "x", experiment, method: :delete, data: { confirm: "Delete experiment?" } %></td>
         </tr>
