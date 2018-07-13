@@ -1,10 +1,9 @@
 // @import "bootstrap-sprockets";
-@import "bootstrap";
 
 /* universal */
 
-body {
-  padding-top: 10px;
+header {
+  margin-bottom: 40px;
 }
 
 section {
@@ -20,9 +19,13 @@ textarea {
 }
 
 .center h1 {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
+.center-pills {
+    display: flex;
+    justify-content: center;
+}
 
 /* typography */
 
