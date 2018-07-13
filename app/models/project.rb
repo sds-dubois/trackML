@@ -7,7 +7,7 @@ class Project < ApplicationRecord
 		models = Model.where(model_id: self.id) if models.nil?
 		file = CSV.generate do |csv|
 			csv << ["Project: #{self.name} - id: #{self.id}"]
-			csv << models.first.csv_headers()
+			csv << models.first.csv_headers() if models.count > 0
 			models.each{ |m| csv << m.csv_dump() }
 		end
 		filename = "project_#{self.id}_models.csv"
