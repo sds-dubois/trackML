@@ -1,5 +1,5 @@
 class ExperimentsController < ApplicationController
-	skip_before_filter :verify_authenticity_token, only: :api_create
+	skip_before_filter :verify_authenticity_token, only: [:api_create, :api_bulk_create]
 
 	def index
 		model_id = params[:model_id]
@@ -8,8 +8,17 @@ class ExperimentsController < ApplicationController
 	end
 
 	def api_create
-		@experiment = Experiment.new(_experiment_params())
-		render json: {success: @experiment.save, id: @experiment.id}.to_json
+		experiment = Experiment.new(_experiment_params())
+		render json: {success: experiment.save, id: experiment.id}.to_json
+	end
+
+	def api_bulk_create
+		experiments = _experiment_bulk_params()
+		results = experiments.map do |exp_params|
+			experiment = Experiment.new(exp_params)
+			[experiment.save, experiment.id]
+		end
+		render json: {success: results.map(&:first).all?, ids: results.map(&:last)}.to_json
 	end
 
 	def destroy
@@ -26,6 +35,10 @@ class ExperimentsController < ApplicationController
 			p[:parameters] = YAML.load(p[:parameters])
 			p[:scores] = YAML.load(p[:scores])
 			return p
+		end
+
+		def _experiment_bulk_params
+			return YAML.load(params[:experiments])
 		end
 
 end

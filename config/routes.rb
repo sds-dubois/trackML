@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post "/api/create_project", to: "projects#api_create"
   post "/api/create_project", to: "projects#api_create"
   post "/api/create_experiment", to: "experiments#api_create"
+  post "/api/create_experiments", to: "experiments#api_bulk_create"
   
   get "/models/:id/export", to: "models#export", as: :export_model
   get "/projects/:id/export", to: "projects#export", as: :export_project
