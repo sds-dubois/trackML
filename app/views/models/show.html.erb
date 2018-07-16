@@ -8,6 +8,7 @@
 
   <ul class="nav nav-pills center-pills">
       <li class="nav-item mr-2"><%= link_to "Edit model", "#editModal", data: {toggle: "modal", target: "#editModal"}, class: "nav-link active" %></li>
+      <li class="nav-item mr-2"><%= link_to "Inspect", inspect_model_path(id: @model.id), class: "nav-link active" %></li>
       <li class="nav-item mr-2"><%= link_to "Export logs", export_model_path(id: @model), class: "nav-link active" %></li>
       <li class="nav-item mr-2"><%= link_to "Go to project", project_path(id: @model.project_id), class: "nav-link active" %></li>
   </ul>

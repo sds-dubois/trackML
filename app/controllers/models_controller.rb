@@ -29,6 +29,29 @@ class ModelsController < ApplicationController
 		@experiments = Experiment.where(model_id: @model.id)
 	end
 
+	def inspect
+		@model = Model.find(params[:id])
+		@experiments = Experiment.where(model_id: @model.id)
+		@parameters = @experiments.map{ |e| e.parameters.keys }.reduce([], &:+).uniq
+		@metrics = @experiments.map{ |e| e.scores.keys }.reduce([], &:+).uniq
+	end
+
+	def parameter_graph
+		experiments = Experiment.where(model_id: params[:id])
+		parameter = params[:parameter]
+		metrics = params[:metrics]
+
+		if metrics.blank? || metrics.count == 0
+			head :ok and return
+		end
+
+		detailed_exp = Experiment.detailed_list(experiments).select{ |e,m,s| metrics.include?(m) }
+		data = detailed_exp.group_by(&:second).map do |k,v| 
+        	{name: k, data: v.map{ |e,m,s| [e.parameters[parameter], s] }} 
+		end
+		render js: "new Chartkick.LineChart('explorer-chart', #{data.to_json}, {'legend': 'bottom'})"
+	end
+
 	def update
 		@model = Model.find(params[:id])
 		@model.update_attributes(params.require(:model).permit(:name, :comment))

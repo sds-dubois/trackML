@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   post "/api/create_experiments", to: "experiments#api_bulk_create"
   
   get "/models/:id/export", to: "models#export", as: :export_model
+  get "/models/:id/inspect", to: "models#inspect", as: :inspect_model
+  get "/models/:id/parameter_graph", to: "models#parameter_graph", as: :parameter_graph
+
   get "/projects/:id/export", to: "projects#export", as: :export_project
 
   resources :projects

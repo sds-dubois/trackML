@@ -1,0 +1,101 @@
+<% provide(:title, "Model #{@model.id} - Parameter Explorer") %>
+<% detailed_exp = Experiment.detailed_list(@experiments) %>
+
+<div class="jumbotron">
+
+    <h1 class="display-4"><%= "#{@model.name}" %></h1>
+
+    <ul class="nav nav-pills center-pills">
+        <li class="nav-item mr-2"><%= link_to "Go to model", model_path(id: @model.id), class: "nav-link active" %></li>
+        <li class="nav-item mr-2"><%= link_to "Go to project", project_path(id: @model.project_id), class: "nav-link active" %></li>
+    </ul>
+
+</div>
+
+
+
+<ul class="nav nav-tabs">
+    <li class="nav-item"><a data-toggle="tab" href="#overview" class="nav-link active">Overview</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#explorer" class="nav-link">Explorer</a></li>
+</ul>
+
+<div class="tab-content">
+
+    <div id="overview" class="tab-pane fade show active">
+
+        <div class="my-5" id="chartContainer2">
+
+            <div id="graphCarousel" class="carousel slide mt-5" data-ride="carousel" data-interval="false">
+                <div class="carousel-inner">
+
+                    <% @parameters.each_with_index do |p, idx| %>
+                        <div class="carousel-item <%= (idx == 0) ? "active" : "" %>">
+
+                            <%= line_chart detailed_exp.group_by(&:second).map{ |k,v| 
+                                {name: k, data: v.map{ |e,m,s| [e.parameters[p], s] }} 
+                            }, legend: "bottom" %>
+
+                        </div>
+                    <% end %>
+
+                </div>
+            </div>
+
+            <div class="my-3">
+                <ul class="nav nav-pills center-pills">
+                    <% @parameters.each_with_index do |p, idx| %>
+                        <li class="nav-item mr-2">
+                            <%= link_to p, "#", data: {toggle: "tab", target: "#graphCarousel", "slide-to" => idx.to_s }, class: "nav-link btn-light #{(idx == 0) ? "active" : ""}" %>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="explorer" class="tab-pane fade">
+        
+        <div class="col-md-6 col-md-offset-3 mx-auto my-3">
+            
+            <div class="text-center">
+                <%= link_to raw("Parameter Explorer &#x21D5;"), "#", data: {toggle: "collapse", target: "#parameterForm"} %>
+            </div>
+
+            <div id="parameterForm" class="collapse show pb-5">
+                <%= form_tag parameter_graph_path, method: "get", remote: true do %>
+                    <%= hidden_field_tag :id, @model.id %>
+
+                    <div class="form-group">
+                        <%= label_tag :parameter, "Parameter" %>
+                        <%= select_tag :parameter, options_for_select(@parameters), class: "form-control" %>
+                    </div>
+
+                    <div class="form-group">
+                        <%= label_tag "", "Metrics" %>
+                        <div class="my-1">
+                            <% @metrics.each do |m| %>
+                                <div class="form-check">
+                                    <%= check_box_tag "metrics[]", m, true, class: "form-check-input" %>
+                                    <label class="form-check-label"><%= m %></label>
+                                </div>
+                            <% end %>
+                        </div>
+                    </div>
+
+                    <%= submit_tag "Update graph", class: "btn btn-primary my-3" %>
+                <% end %>
+            </div>
+
+        </div>
+
+        <div class="my-5" id="chartContainer1">
+            <%= line_chart detailed_exp.group_by(&:second).map{ |k,v| 
+                {name: k, data: v.map{ |e,m,s| [e.id, s] }} 
+            }, legend: "bottom", id: "explorer-chart" %>
+        </div>
+
+    </div>
+</div>
+
+
