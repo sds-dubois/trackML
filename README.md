@@ -1,10 +1,15 @@
 # trackML
 
-*A Rails web-app to manage your machine learning experiments* `work in progress`
+*A Rails web-app to manage your machine learning experiments*  
+`[work in progress]`
 
 - **Peace of mind**: everything is saved and easily accessible so you can remember what you tried and how well it performed
 - **Visibility**: quickly compare different models and share results with collaborators
 - **Control**: you keep control of your data, whether you want to keep it on your local machine or your servers
+- **Flexibility**: this is an open source project, you can help make it better or modify it to fit your needs
+
+
+![screenshot](app/assets/images/models_screenshot.jpg)
 
 
 ## Getting started
